@@ -17,5 +17,14 @@ Infrastructure fragility is a major bottleneck. A data engineer might write a pi
      - <b>The Docker Solution</b>: By wrapping the entire stack in Docker, you guarantee that the logic running on your laptop is identical to what runs in GCP. This eliminates deployment "surprises" and allows for easy scaling on Google Kubernetes Engine (GKE).<br>
      - <b>The Bottom Line</b>: You are solving for Trust. By implementing this, you move from a reactive state (fixing broken dashboards) to a proactive state (delivering verified, version-controlled data assets).
 ## *Business Leverage & Impact*
+1. <b>Radically Reduced "Time-to-Insight"</b><br>
+By using dbt with Airflow, you replace weeks of manual SQL scripting with a modular, version-controlled framework.<br>
+      - <b>The Leverage</b>: When a stakeholder asks for a new metric, you don't build a new silo. You simply add a layer to your existing Gold models. The automated testing ensures that new changes don't break old reports, allowing your team to ship updates daily rather than monthly.
+2. <b>Elimination of "Decision Friction"</b><br>
+Discrepancies between departments (e.g., Marketing and Finance reporting different "Active User" counts) create organizational paralysis.<br>
+      - <b>The Business Impact</b>: The Silver layer acts as the "Universal Translator." It forces a single definition of truth across the company. When everyone trusts the dashboard, meetings move from "where did this number come from?" to "what should we do about this number?"
+3. <b>Cost-Efficient Scalability</b><br>
+Without this architecture, GCP costs often spiral because inefficient queries scan entire raw datasets repeatedly.<br>
+      - <b>The Leverage</b><br>: By "landing" data once in Bronze and refining it into partitioned/clustered Gold tables, you optimize BigQuery compute. Docker ensures your orchestration costs are predictable—you aren't locked into expensive proprietary tools and can scale your infrastructure up or down in minutes without rewriting code.
 ## *Project Prerequition*
 ## *Project Flow*
