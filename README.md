@@ -51,7 +51,7 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
        -o /usr/local/lib/docker/cli-plugins/docker-compose
    ....
    ```
-4. Buils dbt docker with the dependebcies: <i>dbt-bigquery & google cloud sdk</i>
+4. Build dbt docker with the dependebcies: <i>dbt-bigquery & google cloud sdk</i>
    ```nvim
    # Dockerfile
    FROM ghcr.io/dbt-labs/dbt-bigquery:1.7.2
