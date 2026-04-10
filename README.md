@@ -52,6 +52,41 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
    ....
    ```
 4. Buils dbt docker with the dependebcies: <i>dbt-bigquery & google cloud sdk</i>
-5. Install google cli
-6. Setup IAM & Admin/Service Account
+   ```nvim
+   # Dockerfile
+   FROM ghcr.io/dbt-labs/dbt-bigquery:1.7.2
+   ...
+   # Install Google Cloud SDK
+   RUN curl -sSL https://sdk.cloud.google.com | bash
+   ...   
+   ```
+5. Setup IAM & Admin/Service Account
+   - Login to: console.google.cloud.com
+   - Choose menu: IAM & Admin > Service Account > Create service account
+   - Manage access:
+      - BigQuery Data Editor
+      - Bigquery Data Viewer
+      - BigQuery Job User 
+   
+7. Install google cli
+   ```bash
+   # Install google-cloud-cli   
+   ❯ yay -S google-cloud-cli
+
+   ❯ gcloud --version
+   Google Cloud SDK 563.0.0
+   alpha 2026.03.27
+   beta 2026.03.27
+   core 2026.03.27
+   gcloud-crc32c 1.0.0
+   gsutil 5.36
+   preview 2026.03.2
+
+   # Initialize the CLI
+   ❯ gcloud init
+   
+   # 1. Select account
+   # 2. Pick cloud project to use
+   # 3. Configure Compute Region and Zone  
+   ```
 ## *Project Flow*
