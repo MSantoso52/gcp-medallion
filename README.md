@@ -29,13 +29,13 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
 ## *Project Prerequition*
 1. Installed docker on your system (cachyos)
    ```bash
-   > sudo pacman -S docker docker-compose buildx
+   ❯ sudo pacman -S docker docker-compose buildx
 
    # verify installation
-   > docker --version
+   ❯ docker --version
    Docker version 29.3.1, build c2be9ccfc3
 
-   > docker compose version
+   ❯ docker compose version
    Docker Compose version 5.1.1 
    ``` 
 3. Build airflow docker with the dependencies: <i>docker cli & docker compose</i>
@@ -90,6 +90,10 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
    # 3. Configure Compute Region and Zone  
    ```
 ## *Project Flow*
+1. Load CSV file into <b>GCS Bucket</b>
+2. Data Ingestion: running <b>Airflow</b> <i>gcs_to_bronze_dag.py</i> to load data from GCS to <b>Bronze Layer</b>
+3. Data Cleansing <b>(Silver Layer)</b>, Data Transformation <b>(Gold Layer)</b> and Data Testing within: running <i>dbt_medallion_dag.py</i> 
+4. Checking the result in BigQuery
 ## Screenshot
 ### Apache Airflow
 ![Apache Airflow running dbt_medallion_dag](gcp_medallion_screenshots/gcp_dbt_airflow.png)
