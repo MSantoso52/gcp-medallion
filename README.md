@@ -94,6 +94,40 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
 2. Data Ingestion: running <b>Airflow</b> <i>gcs_to_bronze_dag.py</i> to load data from GCS to <b>Bronze Layer</b>
 3. Data Cleansing <b>(Silver Layer)</b>, Data Transformation <b>(Gold Layer)</b> and Data Testing within: running <i>dbt_medallion_dag.py</i> 
 4. Checking the result in BigQuery
+## *GCP-dbt Hierarchy*
+   ```bash
+   gcp_dbt
+├── dbt_project.yml
+├── docker-compose.yml
+├── gcp-creds.json
+├── Dockerfile
+├── profile.yml
+│
+├── models/
+│   ├── sources.yml              # declares existing BigQuery tables (bronze/silver/gold)
+│   │
+│   ├── bronze/                  # reads from raw sources
+│   │   └── bronze_sales.sql
+│   │
+│   ├── silver/                  # transforms bronze → silver
+│   │   ├── schema.yml           # tests & docs for silver models
+│   │   └── stage_sales.sql
+│   │
+│   └── gold/                    # transforms silver → gold
+│       ├── schema.yml           # tests & docs for gold models
+│       └── category_sales_daily.sql
+│
+├── tests/                       # custom data tests
+│   └── assert_positive_revenue.sql
+│
+├── macros/                      # reusable jinja/SQL macros
+│   └── generate_schema_name.sql
+│
+├── seeds/                       # static CSV data loaded to BQ
+│   └── country_codes.csv
+│
+└── target/                      # auto-generated, add to .gitignore
+   ```
 ## Screenshot
 ### Apache Airflow
 ![Apache Airflow running dbt_medallion_dag](gcp_medallion_screenshots/gcp-medallion.png)
