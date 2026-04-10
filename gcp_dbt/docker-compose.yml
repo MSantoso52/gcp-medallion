@@ -1,0 +1,23 @@
+# docker-compose.yml
+# Located at: /home/mulyo/Docker/gcp_dbt/
+
+services:
+  dbt:
+    build: .
+    container_name: dbt_bigquery_runner
+    volumes:
+      # 1. dbt project code — absolute path to your project
+      - /home/mulyo/Docker/gcp_dbt:/usr/app
+
+      # 2. GCP credentials — absolute path
+      - /home/mulyo/Docker/gcp_dbt/gcp-creds.json:/root/.config/gcloud/application_default_credentials.json:ro
+
+      # 3. profiles.yml — absolute path
+      - /home/mulyo/Docker/gcp_dbt/profiles.yml:/root/.dbt/profiles.yml:ro
+
+    environment:
+      - DBT_PROFILES_DIR=/root/.dbt
+
+    working_dir: /usr/app
+
+    command: ["run", "--profile", "gcp_project"]

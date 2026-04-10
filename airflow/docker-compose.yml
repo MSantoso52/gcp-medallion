@@ -1,0 +1,86 @@
+# docker-compose.yml
+# Located at: /home/mulyo/Docker/airflow/ (or wherever your airflow project is)
+
+x-airflow-common:
+  &airflow-common
+  build: .
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__LOGGING_LEVEL: INFO
+    GOOGLE_CLOUD_PROJECT: 'gcp-medallion'
+    AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT: 'google-cloud-platform://?project_id=gcp-medallion'
+    GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-creds.json
+    # dbt project path — accessible inside container
+    DBT_PROJECT_DIR: /opt/airflow/dbt_project
+
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ./data:/opt/airflow/data
+
+    # GCP credentials
+    - ~/.config/gcloud/application_default_credentials.json:/opt/airflow/gcp-creds.json:ro
+
+    # dbt project — absolute path from your host
+    - /home/mulyo/Docker/gcp_dbt:/opt/airflow/dbt_project
+
+    # dbt profiles.yml
+    - /home/mulyo/Docker/gcp_dbt/profiles.yml:/root/.dbt/profiles.yml:ro
+
+    # Docker socket — allows Airflow to trigger dbt docker container
+    - /var/run/docker.sock:/var/run/docker.sock
+
+    # ✅ Mount entire dbt project folder so docker-compose.yml is accessible
+    - /home/mulyo/Docker/gcp_dbt:/home/mulyo/Docker/gcp_dbt
+
+    # ✅ Mount socket explicitly
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  # ✅ Run as root to bypass socket permission (simplest approach)
+  user: "0:0"
+  # user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8081:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+
+  airflow-init:
+    <<: *airflow-common
+    command: version
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: airflow
+      _AIRFLOW_WWW_USER_PASSWORD: airflow

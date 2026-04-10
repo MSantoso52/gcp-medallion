@@ -1,0 +1,10 @@
+# gold/schema.yml
+version: 2
+
+models:
+  - name: category_sales_daily
+    columns:
+      - name: daily_revenue
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"

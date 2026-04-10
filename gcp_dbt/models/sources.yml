@@ -1,0 +1,23 @@
+# models/sources.yml
+version: 2
+
+sources:
+  - name: bronze_layer
+    database: gcp-medallion
+    schema: bronze_layer
+    tables:
+      - name: raw_sales
+
+  #- name: silver_layer
+   # database: gcp-medallion
+   # schema: silver_layer
+   # tables:
+    #  - name: stg_sales
+     # - name: stg_customers
+
+  #- name: gold_layer
+   # database: gcp-medallion
+   # schema: gold_layer
+  # tables:
+    #  - name: dim_sales
+    # - name: fact_orders

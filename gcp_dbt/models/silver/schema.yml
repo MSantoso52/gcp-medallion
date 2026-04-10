@@ -1,0 +1,10 @@
+# silver/schema.yml
+version: 2
+
+models:
+  - name: stage_sales
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null

@@ -1,0 +1,12 @@
+name: gcp_project
+version: '1.0.0'
+profile: gcp_project
+
+model-paths: ["models"]
+
+models:
+  gcp_project:
+    silver:
+      +schema: silver_layer
+    gold:
+      +schema: gold_layer
