@@ -96,11 +96,11 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
 4. Checking the result in BigQuery
 ## Screenshot
 ### Apache Airflow
-![Apache Airflow running dbt_medallion_dag](gcp_medallion_screenshots/gcp_dbt_airflow.png)
+![Apache Airflow running dbt_medallion_dag](gcp_medallion_screenshots/gcp-medallion.png)
 ### BigQuery Silver Layer
 ![BigQuery After Airflow execution](gcp_medallion_screenshots/gcp_gold_layer.png)
 ### BigQuery Gold Layer
-
+![BigQuery Silcer Layer](gcp_medallion_screenshots/gcp_silver_layer.png)
 ### dbt connection check
 ![dbt debug](gcp_medallion_screenshots/docker_dbt_debug.png)
 ![dbt debug](gcp_medallion_screenshots/docker_dbt_debug_2.png)
