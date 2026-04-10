@@ -25,6 +25,33 @@ Discrepancies between departments (e.g., Marketing and Finance reporting differe
       - <b>The Business Impact</b>: The Silver layer acts as the "Universal Translator." It forces a single definition of truth across the company. When everyone trusts the dashboard, meetings move from "where did this number come from?" to "what should we do about this number?"
 3. <b>Cost-Efficient Scalability</b><br>
 Without this architecture, GCP costs often spiral because inefficient queries scan entire raw datasets repeatedly.<br>
-      - <b>The Leverage</b><br>: By "landing" data once in Bronze and refining it into partitioned/clustered Gold tables, you optimize BigQuery compute. Docker ensures your orchestration costs are predictable—you aren't locked into expensive proprietary tools and can scale your infrastructure up or down in minutes without rewriting code.
+      - <b>The Leverage</b>: By "landing" data once in Bronze and refining it into partitioned/clustered Gold tables, you optimize BigQuery compute. Docker ensures your orchestration costs are predictable—you aren't locked into expensive proprietary tools and can scale your infrastructure up or down in minutes without rewriting code.
 ## *Project Prerequition*
+1. Installed docker on your system (cachyos)
+   ```bash
+   > sudo pacman -S docker docker-compose buildx
+
+   # verify installation
+   > docker --version
+   Docker version 29.3.1, build c2be9ccfc3
+
+   > docker compose version
+   Docker Compose version 5.1.1 
+   ``` 
+3. Build airflow docker with the dependencies: <i>docker cli & docker compose</i>
+   ```nvim
+   # Dockerfile
+   FROM apache/airflow:2.8.0
+   ...
+   # Docker CLI
+   RUN apt-get install -y docker-ce-cli
+   ...
+   # docker compose
+   RUN curl -SL "https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64" \
+       -o /usr/local/lib/docker/cli-plugins/docker-compose
+   ....
+   ```
+4. Buils dbt docker with the dependebcies: <i>dbt-bigquery & google cloud sdk</i>
+5. Install google cli
+6. Setup IAM & Admin/Service Account
 ## *Project Flow*
