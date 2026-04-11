@@ -1,6 +1,6 @@
 # GCP Medallion Architecture
 <b>Implementation Medallion Architecture on GCP</b><br>
-![GPP-Medallion Archirecture](gcp_medallion_screenshots/gcp_medallion.png)
+![GPP-Medallion Archirecture](screenshots/gcp_medallion.png)
 ## *Project Overview*
 Implementing Medallion Architecture on Google Cloud Platform (GCP) by using BigQuery as Bronze-Silver-Gold layer, orchestrate the all processes with Apache Airflow, transformation and test proceses using dbt in docker contenerized. The pipeline begins with Airflow DAGs ingesting raw data into BigQuery (Bronze), followed by dbt models that clean and normalize data into a relational format (Silver), and finally aggregate it into business-ready tables (Gold).
 ## *Problem To Be Solved*
@@ -130,11 +130,11 @@ Without this architecture, GCP costs often spiral because inefficient queries sc
    ```
 ## Screenshot
 ### Apache Airflow
-![Apache Airflow running dbt_medallion_dag](gcp_medallion_screenshots/gcp-medallion.png)
+![Apache Airflow running dbt_medallion_dag](screenshots/gcp-medallion.png)
 ### BigQuery Silver Layer
-![BigQuery After Airflow execution](gcp_medallion_screenshots/gcp_silver_layer.png)
+![BigQuery After Airflow execution](screenshots/gcp_silver_layer.png)
 ### BigQuery Gold Layer
-![BigQuery Silcer Layer](gcp_medallion_screenshots/gcp_gold_layer.png)
+![BigQuery Silcer Layer](screenshots/gcp_gold_layer.png)
 ### dbt connection check
-![dbt debug](gcp_medallion_screenshots/docker_dbt_debug.png)
-![dbt debug](gcp_medallion_screenshots/docker_dbt_debug_2.png)
+![dbt debug](screenshots/docker_dbt_debug.png)
+![dbt debug](screenshots/docker_dbt_debug_2.png)
